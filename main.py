@@ -72,13 +72,23 @@ def test_bezier():
                  title="Affichage courbe de Bézier avec " + str(len(points)) + " points de controles",
                  legend=["Courbe de Bézier"])
 
-
     # Test avec une boucle
-    points = [(5, 0), (10, 0), (15, 10), (10, 10), (20, 0), (25, 0)]
+    points = [(5, 0), (10, 0), (12.5, 5), (15, 10), (10, 10), (15, 5), (20, 0), (25, 0)]
     curve = Bezier(points).get_curve()
     display_plot(points, [curve],
-                 title="Affichage courbe de Bézier avec une boucle",
+                 title="Affichage courbe de Bézier avec " + str(len(points)) + " points de controles",
                  legend=["Courbe de Bézier"])
+
+    curve_boucle_sans_morceau = Bezier(points).get_curve()
+
+    # Test de la lettre C avec morceau
+    all_points = [points[:3], points[2:6], points[5:]]
+    curve_boucle_avec_morceau = []
+    for pt in all_points:
+        curve_boucle_avec_morceau += Bezier(pt).get_curve()
+
+    display_plot(points, [curve_boucle_sans_morceau, curve_boucle_avec_morceau],
+                 title="Affichage courbe de Bézier d'une boucle", legend=["sans morceau", "par morceau"])
 
     # Test avec 5 points de controles aléatoires entre -15 et 15 en 3D
     points = [(random.randint(-15, 15), random.randint(-15, 15), random.randint(-15, 15)) for i in range(5)]
@@ -98,23 +108,6 @@ def test_bezier():
 
     display_plot(points, [b_lettre_c_sans_morceau, b_lettre_c_avec_morceau],
                  title="Affichage de la lettre C", legend=["sans morceau", "par morceau"])
-
-    # Test cercle sans morceau
-    points_carre = [(15, 15), (15, -15), (-15, -15), (-15, 15), (15, 15)]
-    b_cercle_sans_morceau = Bezier(points_carre).get_curve()
-
-    # Test cercle avec morceau
-    points1 = [(15, 0), (15, -15), (0, -15)]
-    points2 = [(0, -15), (-15, -15), (-15, 0)]
-    points3 = [(-15, 0), (-15, 15), (0, 15)]
-    points4 = [(0, 15), (15, 15), (15, 0)]
-    all_points = points1 + points2 + points3 + points4
-    b_cercle_avec_morceau = []
-    for pt in all_points:
-        b_cercle_avec_morceau += Bezier(pt).get_curve()
-
-    display_plot(points_carre, [b_cercle_sans_morceau, b_cercle_avec_morceau],
-                 title="Affichage d'un cercle", legend=["sans morceau", "par morceau"])
 
 
 if __name__ == '__main__':
